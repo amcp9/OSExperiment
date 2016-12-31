@@ -1,0 +1,83 @@
+//
+//  main.c
+//  OS实验8电梯法
+//
+//  Created by Owner on 16/12/24.
+//  Copyright © 2016年 Owner. All rights reserved.
+//
+
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct liftNode
+{
+    int fuckingElem;
+    int absValue;
+}liftNode;
+void Bubble_Sort(liftNode [],int);//冒泡排序
+int searchWhatthefuckisthelocation(liftNode *,int,int);//找第一位小于0且最接近当前位置的位置算法
+int main() {
+    // insert code here...
+    int totalNode,firstLocal;
+    printf("输入当前磁道位置：");
+    scanf("%d",&firstLocal);
+    printf("请输入访问序列的个数：");
+    scanf("%d",&totalNode);
+    liftNode node[totalNode];
+    for (int i; i<totalNode; i++) {
+        printf("请输入序列中第%d个磁道为：",i+1);
+        scanf("%d",&node[i].fuckingElem);
+    }
+    for (int i=0; i<totalNode; i++)
+    {//初始化结点中的absValue,元素-目标的距离
+        node[i].absValue=abs(node[i].fuckingElem-firstLocal);
+    }
+    Bubble_Sort(node,totalNode);
+    int location=searchWhatthefuckisthelocation(node,totalNode,firstLocal);
+    int totalStep=0;
+    printf("磁盘寻道顺序如下：\n");
+    for (int ohMygod=location; ohMygod>=0; ohMygod--) {
+        printf("%d\n",node[ohMygod].fuckingElem);
+        totalStep=totalStep+abs(node[ohMygod].fuckingElem-firstLocal);
+        firstLocal=node[ohMygod].fuckingElem;
+    }
+        for (location=location+1; location<totalNode; location++) {
+            printf("%d\n",node[location].fuckingElem);
+            totalStep=totalStep+abs(node[location].fuckingElem-firstLocal);
+            firstLocal=node[location].fuckingElem;
+        }
+    printf("寻找结束，总共步数为:%d\n",totalStep);
+    return 0;
+}
+void Bubble_Sort(liftNode *num, int n)
+{
+    int i, j;
+    for(i = 0; i < n; i++)
+    {
+        for(j = 0; i+j<n-1; j++)
+        {
+            if(num[j].fuckingElem > num[j + 1].fuckingElem)
+            {
+                int temp = num[j].absValue;
+                int temp2= num[j].fuckingElem;
+                num[j].absValue = num[j + 1].absValue;
+                num[j].fuckingElem = num[j+1].fuckingElem;
+                num[j + 1].absValue = temp;
+                num[j+1].fuckingElem = temp2;
+            }
+        }
+    }
+    return;
+}
+
+int searchWhatthefuckisthelocation(liftNode *num,int n,int m)
+{
+    int min=65535,location;
+    for (int i=0; i<n; i++) {
+        if (num[i].absValue < min&&num[i].fuckingElem<m) {
+            min=num[i].absValue;
+            location=i;
+        }
+       
+    }
+     return location;
+}
